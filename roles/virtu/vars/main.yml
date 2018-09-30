@@ -1,0 +1,12 @@
+---
+# vars file for virtu
+virt_packages:
+  - qemu-kvm
+  - libvirt-daemon
+  - libvirt-clients
+  - virtinst
+  - vagrant
+  - vagrant-libvirt
+
+lxc_packages:
+  - vagrant-lxc

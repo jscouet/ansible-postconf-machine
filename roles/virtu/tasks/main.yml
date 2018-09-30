@@ -1,0 +1,21 @@
+---
+# tasks file for virtu
+- name: install virt packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+    - "{{ virt_packages }}"
+
+- name: is lxc installed
+  command: bash -c 'dpkg -l|grep lxc'
+  register: lxc_installed
+
+- name: lxc vagrant tools
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - "{{ lxc_packages }}"
+  when: 
+    - lxc_installed.rc == 0
