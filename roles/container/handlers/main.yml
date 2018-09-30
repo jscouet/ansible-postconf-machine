@@ -1,0 +1,16 @@
+---
+# handlers file for container-install
+- name: lxc restart 
+  systemd:
+    name: lxc
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+
+- name: docker restart
+  service:
+    name: docker
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  

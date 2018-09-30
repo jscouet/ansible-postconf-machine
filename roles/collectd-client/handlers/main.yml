@@ -1,2 +1,7 @@
 ---
 # handlers file for collectd-client
+- name: collectd restart
+  service:
+    name: collectd
+    state: restarted
+

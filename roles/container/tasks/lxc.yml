@@ -1,0 +1,31 @@
+---
+- name : install lxc packages
+  apt: 
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+    - "{{ lxc_packages }}"
+  tags:
+    - lxc
+
+- file:
+    path: "{{ container_path }}/lxc"
+    state: directory
+    owner: root
+    group: root
+    mode: 644
+  tags:
+    - lxc
+
+- name: config file lxc
+  template:
+    src: "{{ item }}"
+    dest: /etc/lxc/{{ item | regex_replace('\.j2','') }}
+  with_items:
+    - default.conf.j2
+    - lxc.conf.j2
+  notify:
+    - lxc restart
+  tags:
+    - lxc
+

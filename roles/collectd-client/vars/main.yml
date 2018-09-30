@@ -1,2 +1,5 @@
 ---
 # vars file for collectd-client
+#
+collectd_packages_debian:
+

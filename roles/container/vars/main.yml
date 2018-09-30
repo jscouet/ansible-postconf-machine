@@ -1,0 +1,16 @@
+---
+# real packages to use
+docker_packages:
+  - docker-ce
+
+lxc_packages:
+  - lxc
+  - lxctl
+
+hashicorp_packages:
+  - vagrant
+  - terraform
+  - packer
+
+kube_client_packages:
+  - kubectl

@@ -1,0 +1,6 @@
+---
+# tasks file for base
+- name: install base packages
+  package:
+    name: "{{ item }}"
+  with_items : "{{ packages }}"

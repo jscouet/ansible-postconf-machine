@@ -1,0 +1,26 @@
+---
+# Basic conf
+ubuntu_version: "bionic"
+debian_version: "stretch"
+
+
+# collectd client
+influxdb_server: "influxdb.service.jsoude.net"
+influxdb_port: "25826"
+
+# container
+container_enabled: true
+container_path: /srv/machines
+
+docker_compose_version: 1.22.0
+
+docker_graph_dir: "{{ container_path }}/docker"
+
+privileged_user: jeremy
+
+sudo:
+  privileged_user: "{{ privileged_user }}"
+
+docker:
+  privileged_user: "{{ privileged_user }}"
+

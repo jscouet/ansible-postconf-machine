@@ -1,0 +1,75 @@
+---
+- name: install key docker repo
+  shell: curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+  when: ansible_distribution == "Debian"
+  tags:
+    - docker
+
+- name: install key docker repo
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  when: ansible_distribution == "Ubuntu"
+  tags:
+    - docker
+
+- name: install docker repo
+  apt_repository:
+    repo : deb https://download.docker.com/linux/debian {{ debian_version }}  stable
+    state: present
+    update_cache: yes
+    validate_certs: no
+  when: ansible_distribution == "Debian"
+  tags:
+    - docker
+
+- name: install docker repo
+  apt_repository:
+    repo : deb https://download.docker.com/linux/ubuntu {{ ubuntu_version }}  stable
+    state: present
+    update_cache: yes
+    validate_certs: no
+  when: ansible_distribution == "Ubuntu"
+  tags:
+    - docker
+
+
+- name : install docker packages
+  apt: 
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+    - "{{ docker_packages }}"
+  tags: 
+    - docker
+
+- name: docker config
+  block:
+    - template:
+        src: docker.j2
+        dest: /etc/default/docker
+      notify: docker restart
+
+    - template: 
+        src: daemon.json.j2
+        dest: /etc/docker/daemon.json
+      notify: docker restart
+  tags:
+    - docker
+
+- name: restarting docker
+  command: echo "restart docker service"
+  notify: docker restart
+
+- name : privileged user into docker group
+  user:
+    name: "{{ docker.privileged_user }}"
+    groups: docker
+  tags:
+    - docker
+
+- name: get docker compose binary
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 755
+  tags:
+    - docker

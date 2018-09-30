@@ -1,0 +1,7 @@
+---
+# vars file for base
+packages:
+  - apt-transport-https
+  - vim
+  - git
+  - curl
